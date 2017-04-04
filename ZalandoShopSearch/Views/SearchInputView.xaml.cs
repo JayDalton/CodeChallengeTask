@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -70,6 +71,31 @@ namespace ZalandoShopSearch.Views
       //{
       //  sender.Text = person.FormName;
       //}
+    }
+
+    private void SearchButton_Click(object sender, RoutedEventArgs e)
+    {
+      Frame.Navigate(typeof(SearchResultView));
+    }
+
+    private void SexRadioButton_Checked(object sender, RoutedEventArgs e)
+    {
+      if (sender is RadioButton)
+      {
+        RadioButton rb = sender as RadioButton;
+        string colorName = rb.Tag.ToString();
+        switch (colorName)
+        {
+          case "Male":
+            Debug.WriteLine("Male selected");
+            break;
+          case "Female":
+            Debug.WriteLine("Female selected");
+            break;
+        }
+
+      }
+
     }
 
     //private List<Person> SearchPersons(string query)

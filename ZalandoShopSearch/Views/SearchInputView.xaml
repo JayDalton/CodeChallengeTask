@@ -18,11 +18,11 @@
         SuggestionChosen="SearchArticleBox_SuggestionChosen"/>
 
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-        <Button Content="Men" Margin="20"/>
-        <Button Content="Women" Margin="20"/>
+        <RadioButton Content="Male" Tag="Male" Checked="SexRadioButton_Checked" IsChecked="True" Margin="20"/>
+        <RadioButton Content="Female" Tag="Female" Checked="SexRadioButton_Checked" Margin="20"/>
       </StackPanel>
 
-      <Button Content="Search" HorizontalAlignment="Center"/>
+      <Button Content="Search" Click="SearchButton_Click" HorizontalAlignment="Center"/>
     </StackPanel>
 
   </Grid>
