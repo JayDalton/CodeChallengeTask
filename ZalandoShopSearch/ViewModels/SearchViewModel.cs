@@ -29,17 +29,6 @@ namespace ZalandoShopSearch.ViewModels
       httpClient = new HttpClient();
       Items = new ObservableCollection<object>();
       apiUri = new Uri(string.Format(baseUri, queryUri));
-
-
-      
-      //string longurl = "http://somesite.com/news.php?article=1&lang=en";
-      //var uriBuilder = new UriBuilder(longurl);
-      //var query = HttpUtility.ParseQueryString(uriBuilder.Query);
-      //query["action"] = "login1";
-      //query["attempts"] = "11";
-      //uriBuilder.Query = query.ToString();
-      //longurl = uriBuilder.ToString();
-
     }
 
     #region Properties
