@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using ZalandoShopSearch.ViewModels;
 
 // Die Elementvorlage "Leere Seite" wird unter https://go.microsoft.com/fwlink/?LinkId=234238 dokumentiert.
 
@@ -22,9 +23,18 @@ namespace ZalandoShopSearch.Views
   /// </summary>
   public sealed partial class SearchResultView : Page
   {
+    ResultViewModel ViewModel { get; set; }
+
     public SearchResultView()
     {
       this.InitializeComponent();
+      ViewModel = new ResultViewModel();
+    }
+
+    protected async override void OnNavigatedTo(NavigationEventArgs e)
+    {
+      base.OnNavigatedTo(e);
+      await ViewModel.loadData();
     }
   }
 }

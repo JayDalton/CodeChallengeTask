@@ -4,10 +4,48 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:ZalandoShopSearch.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:vm="using:ZalandoShopSearch.ViewModels"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <ListView 
+          x:Name="MedicalItems" MinWidth="250" Margin="5"
+          ItemsSource="{x:Bind ViewModel.Articles, Mode=OneWay}" 
+          HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+      <ListView.ItemsPanel>
+        <ItemsPanelTemplate>
+          <ItemsWrapGrid Orientation="Horizontal"/>
+        </ItemsPanelTemplate>
+      </ListView.ItemsPanel>
+      <ListView.ItemTemplate>
+        <DataTemplate x:DataType="vm:ArticleViewModel">
+          <Grid Width="200" Height="100">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto"/>
+              <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto"/>
+              <RowDefinition Height="Auto"/>
+              <RowDefinition Height="Auto"/>
+              <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Image Grid.Column="0" Grid.RowSpan="4" Source="{x:Bind Image}" Width="70" Height="70"/>
+            <TextBlock Grid.Column="1" Grid.Row="0" Text="{x:Bind BrandName, Mode=OneWay}" FontWeight="Bold" />
+            <TextBlock Grid.Column="1" Grid.Row="1" Text="{x:Bind Name, Mode=OneWay}" FontWeight="Bold" />
+            <TextBlock Grid.Column="1" Grid.Row="2" Text="{x:Bind Size, Mode=OneWay}" />
+            <TextBlock Grid.Column="1" Grid.Row="3" Text="{x:Bind Price, Mode=OneWay}" />
+          </Grid>
+        </DataTemplate>
+      </ListView.ItemTemplate>
+      <ListView.ItemContainerStyle>
+        <Style TargetType="ListViewItem">
+          <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+          <Setter Property="Margin" Value="20"/>
+        </Style>
+      </ListView.ItemContainerStyle>
+    </ListView>
 
-    </Grid>
+  </Grid>
 </Page>

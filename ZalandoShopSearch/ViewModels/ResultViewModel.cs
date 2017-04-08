@@ -1,18 +1,15 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using Windows.Web.Http;
 using ZalandoShopSearch.Models;
 using ZalandoShopSearch.Services;
 
 namespace ZalandoShopSearch.ViewModels
 {
-  public class SearchViewModel : NotificationBase
+  public class ResultViewModel : NotificationBase
   {
     #region Fields
 
@@ -20,21 +17,14 @@ namespace ZalandoShopSearch.ViewModels
 
     #endregion Fields
 
-    public SearchViewModel(/*IApiClient client*/)
+    public ResultViewModel()
     {
       apiClient = new ApiClient();
     }
 
     #region Properties
 
-    private IEnumerable<Facet> _facets;
-    public IEnumerable<Facet> Facets
-    {
-      get { return _facets ?? new List<Facet>(); }
-      private set { SetProperty(ref _facets, value); }
-    }
-
-    public bool IsDataLoaded { get; private set; }
+    public ObservableCollection<ArticleViewModel> Articles { get; set; } = new ObservableCollection<ArticleViewModel>();
 
     #endregion Properties
 
@@ -42,13 +32,14 @@ namespace ZalandoShopSearch.ViewModels
 
     public async Task loadData()
     {
-
-      Facets = await apiClient.GetFacetsAsync("male");
-
       var article = await apiClient.GetArticlesAsync();
-
+      foreach (var item in article.Content)
+      {
+        Articles.Add(new ArticleViewModel(item));
+      }
     }
 
     #endregion Methods
+
   }
 }

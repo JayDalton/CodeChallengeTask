@@ -28,6 +28,10 @@ namespace ZalandoShopSearch.Services
       filter = new HttpBaseProtocolFilter();
       httpClient = new HttpClient(filter);
       cts = new CancellationTokenSource();
+
+      httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
+      httpClient.DefaultRequestHeaders.Add("Accept-Language", "de-DE");
+      httpClient.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
     }
 
     #region Properties
@@ -72,11 +76,11 @@ namespace ZalandoShopSearch.Services
       return new List<Facet>();
     }
 
-    public async Task<IEnumerable<Article>> GetArticlesAsync()
+    public async Task<ArticlesPage> GetArticlesAsync()
     {
       var urlBuilder = new StringBuilder();
       urlBuilder.Append(baseUri).Append("/articles?");
-      urlBuilder.Append("brand=").Append("T60");
+      //urlBuilder.Append("brand=").Append("T60");
 
       if (!Uri.TryCreate(urlBuilder.ToString(), UriKind.Absolute, out Uri resourceUri))
       {
@@ -90,9 +94,7 @@ namespace ZalandoShopSearch.Services
         if (httpResponse.IsSuccessStatusCode)
         {
           var content = await httpResponse.Content.ReadAsStringAsync();
-          var xxx = JsonConvert.DeserializeObject<ArticlesPage>(content);
-
-          var yyy = xxx.Size;
+          return JsonConvert.DeserializeObject<ArticlesPage>(content);
         }
       }
       catch (TaskCanceledException)
@@ -104,7 +106,7 @@ namespace ZalandoShopSearch.Services
         throw;
       }
 
-      return new List<Article>();
+      return new ArticlesPage();
     }
 
     #endregion Methods
