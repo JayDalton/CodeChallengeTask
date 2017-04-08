@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Web.Http;
 using ZalandoShopSearch.Models;
+using ZalandoShopSearch.Services;
 
 namespace ZalandoShopSearch.ViewModels
 {
@@ -15,20 +16,14 @@ namespace ZalandoShopSearch.ViewModels
   {
     #region Fields
 
-    const string baseUri = "https://api.zalando.com/facets";
-    const string queryUri = "?gender=male&brandFamily=tommy h";
-
-    private HttpClient httpClient;
-    private CancellationTokenSource cts;
-    private Uri apiUri;
+    IApiClientInterface apiClient;
 
     #endregion Fields
 
     public SearchViewModel(/*IApiClient client*/)
     {
-      httpClient = new HttpClient();
+      apiClient = new ApiClient();
       Items = new ObservableCollection<object>();
-      apiUri = new Uri(string.Format(baseUri, queryUri));
     }
 
     #region Properties
@@ -51,13 +46,10 @@ namespace ZalandoShopSearch.ViewModels
     public async Task loadData()
     {
 
-      //Send the GET request
-      var httpResponse = await httpClient.GetAsync(apiUri);
-      if (httpResponse.IsSuccessStatusCode)
-      {
-        var content = await httpResponse.Content.ReadAsStringAsync();
-        Facets = JsonConvert.DeserializeObject<IEnumerable<Facet>>(content);
-      }
+      Facets = await apiClient.GetFacetsAsync("male");
+
+      var article = await apiClient.GetArticlesAsync();
+
     }
 
     #endregion Methods

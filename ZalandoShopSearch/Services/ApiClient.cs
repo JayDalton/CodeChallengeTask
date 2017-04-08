@@ -11,7 +11,7 @@ using ZalandoShopSearch.Models;
 
 namespace ZalandoShopSearch.Services
 {
-  public class ApiClient : IApiClient
+  public class ApiClient : IApiClientInterface
   {
     #region Fields
 
@@ -44,7 +44,7 @@ namespace ZalandoShopSearch.Services
       urlBuilder.Append(baseUri).Append("/facets?");
       urlBuilder.Append("gender=").Append(gender);
 
-      if (!Uri.TryCreate("", UriKind.Absolute, out Uri resourceUri))
+      if (!Uri.TryCreate(urlBuilder.ToString(), UriKind.Absolute, out Uri resourceUri))
       {
         throw new Exception("TryCreate URI failed.");
       }
@@ -74,6 +74,36 @@ namespace ZalandoShopSearch.Services
 
     public async Task<IEnumerable<Article>> GetArticlesAsync()
     {
+      var urlBuilder = new StringBuilder();
+      urlBuilder.Append(baseUri).Append("/articles?");
+      urlBuilder.Append("brand=").Append("T60");
+
+      if (!Uri.TryCreate(urlBuilder.ToString(), UriKind.Absolute, out Uri resourceUri))
+      {
+        throw new Exception("TryCreate URI failed.");
+      }
+
+      try
+      {
+        var httpResponse = await httpClient.GetAsync(resourceUri).AsTask(cts.Token);
+
+        if (httpResponse.IsSuccessStatusCode)
+        {
+          var content = await httpResponse.Content.ReadAsStringAsync();
+          var xxx = JsonConvert.DeserializeObject<ArticlesPage>(content);
+
+          var yyy = xxx.Size;
+        }
+      }
+      catch (TaskCanceledException)
+      {
+
+      }
+      catch (Exception ex)
+      {
+        throw;
+      }
+
       return new List<Article>();
     }
 

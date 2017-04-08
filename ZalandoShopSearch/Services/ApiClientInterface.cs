@@ -7,7 +7,7 @@ using ZalandoShopSearch.Models;
 
 namespace ZalandoShopSearch.Services
 {
-  public interface IApiClient
+  public interface IApiClientInterface
   {
     Task<IEnumerable<Facet>> GetFacetsAsync(string gender);
 

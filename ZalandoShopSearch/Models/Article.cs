@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,26 +7,57 @@ using System.Threading.Tasks;
 
 namespace ZalandoShopSearch.Models
 {
+  public partial class ArticlesPage
+  {
+    /// <summary>content elements in the response</summary>
+    [JsonProperty("content", Required = Required.Always)]
+    public IEnumerable<Article> Content { get; set; }
+
+    /// <summary>total elements in the response</summary>
+    [JsonProperty("totalElements", Required = Required.Always)]
+    public int TotalElements { get; set; }
+
+    /// <summary>total number of pages in the response</summary>
+    [JsonProperty("totalPages", Required = Required.Always)]
+    public int TotalPages { get; set; }
+
+    /// <summary>page number</summary>
+    [JsonProperty("page", Required = Required.Always)]
+    public int Page { get; set; }
+
+    /// <summary>total number of elements in a page</summary>
+    [JsonProperty("size", Required = Required.Always)]
+    public int Size { get; set; }
+
+    public string ToJson()
+    {
+      return JsonConvert.SerializeObject(this);
+    }
+
+    public static ArticlesPage FromJson(string data)
+    {
+      return JsonConvert.DeserializeObject<ArticlesPage>(data);
+    }
+  }
+
+
   /// <summary>Zalando API Article Schema</summary>
   public partial class Article
   {
     /// <summary>unique article id</summary>
-    [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.Always)]
-    [System.ComponentModel.DataAnnotations.Required]
+    [JsonProperty("id", Required = Required.Always)]
     public string Id { get; set; }
 
     /// <summary>unique article model id</summary>
-    [Newtonsoft.Json.JsonProperty("modelId", Required = Newtonsoft.Json.Required.Always)]
-    [System.ComponentModel.DataAnnotations.Required]
+    [JsonProperty("modelId", Required = Required.Always)]
     public string ModelId { get; set; }
 
     /// <summary>article name</summary>
-    [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Always)]
-    [System.ComponentModel.DataAnnotations.Required]
+    [JsonProperty("name", Required = Required.Always)]
     public string Name { get; set; }
 
     /// <summary>url of the article within the Zalando webshop</summary>
-    [Newtonsoft.Json.JsonProperty("shopUrl", Required = Newtonsoft.Json.Required.Always)]
+    [JsonProperty("shopUrl", Required = Required.Always)]
     [System.ComponentModel.DataAnnotations.Required]
     public string ShopUrl { get; set; }
 

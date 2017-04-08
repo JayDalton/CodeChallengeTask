@@ -7,23 +7,46 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
+  <Page.Resources>
+    <Style x:Key="ButtonRadioButtonStyle" TargetType="RadioButton">
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="RadioButton">
+            <Button Content="{TemplateBinding Content}"/>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+  </Page.Resources>
+  
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <StackPanel>
-      <AutoSuggestBox 
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="*"/>
+      </Grid.RowDefinitions>
+      
+      <AutoSuggestBox Grid.Row="0"
         x:Name="SearchArticleBox" Margin="10"
         QueryIcon="Find" PlaceholderText="Artikel suchen..."
         TextChanged="SearchArticleBox_TextChanged"
         QuerySubmitted="SearchArticleBox_QuerySubmitted"
-        SuggestionChosen="SearchArticleBox_SuggestionChosen"/>
+        SuggestionChosen="SearchArticleBox_SuggestionChosen"
+        HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
 
-      <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-        <RadioButton Content="Male" Tag="Male" Checked="SexRadioButton_Checked" IsChecked="True" Margin="20"/>
-        <RadioButton Content="Female" Tag="Female" Checked="SexRadioButton_Checked" Margin="20"/>
+      <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+        <RadioButton Content="Male" Tag="Male" Checked="SexRadioButton_Checked" IsChecked="True" Margin="20" Style="{StaticResource ButtonRadioButtonStyle}"/>
+        <RadioButton Content="Female" Tag="Female" Checked="SexRadioButton_Checked" Margin="20" Style="{StaticResource ButtonRadioButtonStyle}"/>
       </StackPanel>
 
-      <Button Content="Search" Click="SearchButton_Click" HorizontalAlignment="Center"/>
-    </StackPanel>
+      <Button Grid.Row="2" Margin="20" Click="SearchButton_Click" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+        <Border Width="200" Height="50" CornerRadius="10" BorderThickness="3" BorderBrush="Black">
+          <TextBlock Text="Serach" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+      </Button>
+    </Grid>
 
   </Grid>
 </Page>
