@@ -10,7 +10,7 @@ namespace ZalandoShopSearch.Services
 {
   public interface IApiClientInterface
   {
-    void SetGender(GENDER gender);
+    void SetGender(ApiGender gender);
 
     Task<IEnumerable<Facet>> GetFacetsAsync();
 

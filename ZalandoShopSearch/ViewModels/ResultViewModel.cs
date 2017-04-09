@@ -19,8 +19,6 @@ namespace ZalandoShopSearch.ViewModels
 
     public ResultViewModel()
     {
-      apiClient = new ApiClient();
-      DataSource = new IncrementalDataSource(apiClient);
     }
 
     #region Properties
@@ -31,6 +29,11 @@ namespace ZalandoShopSearch.ViewModels
 
     #region Methods
 
+    public void SetApiClient(IApiClientInterface client)
+    {
+      apiClient = client;
+      DataSource = new IncrementalDataSource(apiClient);
+    }
 
     #endregion Methods
 

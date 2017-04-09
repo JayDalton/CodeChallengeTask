@@ -33,7 +33,7 @@ namespace ZalandoShopSearch.Models
 
     public override string ToString()
     {
-      return this.DisplayName;
+      return string.Format("{0} ({1})", DisplayName, Key);
     }
   }
 }

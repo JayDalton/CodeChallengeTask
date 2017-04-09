@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -15,6 +16,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using ZalandoShopSearch.Models;
+using ZalandoShopSearch.Services;
 using ZalandoShopSearch.ViewModels;
 
 // Die Elementvorlage "Leere Seite" wird unter https://go.microsoft.com/fwlink/?LinkId=234238 dokumentiert.
@@ -33,13 +35,27 @@ namespace ZalandoShopSearch.Views
     public SearchInputView()
     {
       this.InitializeComponent();
-      ViewModel = new SearchViewModel();
+      var apiClient = new ApiClient();
+      ViewModel = new SearchViewModel(apiClient);
     }
 
     protected async override void OnNavigatedTo(NavigationEventArgs e)
     {
       base.OnNavigatedTo(e);
-      await ViewModel.LoadFacetsForSuggestion();
+      await ViewModel.SetGenderToFemale();
+
+      Frame rootFrame = Window.Current.Content as Frame;
+
+      if (rootFrame.CanGoBack)
+      {
+        // If we have pages in our in-app backstack and have opted in to showing back, do so
+        SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+      }
+      else
+      {
+        // Remove the UI from the title bar if there are no pages in our in-app back stack
+        SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+      }
     }
 
     private async void GenderButton_Click(object sender, RoutedEventArgs e)
@@ -51,24 +67,20 @@ namespace ZalandoShopSearch.Views
         switch (gender)
         {
           case "Male":
-            SearchArticleBox.Text = string.Empty;
-            SearchArticleBox.Focus(FocusState.Programmatic);
-            ViewModel.SetGenderToMale();
-            await ViewModel.LoadFacetsForSuggestion();
+            await ViewModel.SetGenderToMale();
             break;
           case "Female":
-            SearchArticleBox.Text = string.Empty;
-            SearchArticleBox.Focus(FocusState.Programmatic);
-            ViewModel.SetGenderToFemale();
-            await ViewModel.LoadFacetsForSuggestion();
+            await ViewModel.SetGenderToFemale();
             break;
         }
+        SearchArticleBox.Text = string.Empty;
+        SearchArticleBox.Focus(FocusState.Programmatic);
       }
     }
 
     private void SearchButton_Click(object sender, RoutedEventArgs e)
     {
-      Frame.Navigate(typeof(SearchResultView));
+      Frame.Navigate(typeof(SearchResultView), ViewModel.Client);
     }
 
     private void SearchArticleBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
@@ -96,8 +108,9 @@ namespace ZalandoShopSearch.Views
       }
       else if (!string.IsNullOrEmpty(args.QueryText))
       {
+        var x = sender.Text;
         //Do a fuzzy search based on the text
-        var suggestions = SearchFacetValue(args.QueryText/*sender.Text*/);
+        var suggestions = SearchFacetValue(args.QueryText);
         if (0 < suggestions.Count)
         {
           SelectFacetValue(suggestions.FirstOrDefault());
@@ -124,6 +137,12 @@ namespace ZalandoShopSearch.Views
         Debug.WriteLine(string.Format("FacetValue: {0} {1} {2}", facetValue.DisplayName, facetValue.Count, facetValue.Key));
 
         var results = facets.Where(f => f.Facets.Contains(facetValue));
+        var xxx = SearchFacetValue(facetValue.DisplayName);
+
+        foreach (var item in xxx)
+        {
+          Debug.WriteLine(item.Key);
+        }
 
         foreach (var facet in results)
         {
@@ -137,7 +156,8 @@ namespace ZalandoShopSearch.Views
       var facets = ViewModel.Facets;
       var suggestions = new List<FacetValue>();
 
-      foreach (var facet in facets)
+
+      foreach (var facet in ViewModel.Facets)
       {
         var matchingItems = facet.Facets.Where(p => p.DisplayName.IndexOf(query, StringComparison.CurrentCultureIgnoreCase) >= 0);
         foreach (var item in matchingItems)

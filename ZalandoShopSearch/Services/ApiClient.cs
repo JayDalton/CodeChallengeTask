@@ -45,32 +45,37 @@ namespace ZalandoShopSearch.Services
 
     #region Methods
 
-    public void SetGender(GENDER gender)
+    public void SetGender(ApiGender gender)
     {
+      var key = "gender";
       switch (gender)
       {
-        case GENDER.MALE:
-          uriParams["gender"] = "male";
+        case ApiGender.Male:
+          uriParams[key] = "male";
           break;
-        case GENDER.FEMALE:
-          uriParams["gender"] = "female";
+        case ApiGender.Female:
+          uriParams[key] = "female";
           break;
+      }
+    }
+
+    public void SetFullText(string text)
+    {
+      var key = "fullText";
+      if (!string.IsNullOrWhiteSpace(text))
+      {
+        uriParams[key] = text;
+      }
+      else
+      {
+        uriParams.Remove(key);
       }
     }
 
     public async Task<IEnumerable<Facet>> GetFacetsAsync()
     {
-      var urlBuilder = new StringBuilder();
-      urlBuilder.Append(baseUri).Append("/facets?");
-      foreach (var item in uriParams)
-      {
-        urlBuilder.Append(item.Key).Append("=").Append(item.Value).Append("&");
-      }
-
-      if (!Uri.TryCreate(urlBuilder.ToString(), UriKind.Absolute, out Uri resourceUri))
-      {
-        throw new Exception("TryCreate URI failed.");
-      }
+      SetFullText(string.Empty);
+      var resourceUri = generateUriParams("facets");
 
       try
       {
@@ -84,13 +89,12 @@ namespace ZalandoShopSearch.Services
       }
       catch (TaskCanceledException)
       {
-
+        throw;
       }
       catch (Exception ex)
       {
         throw;
       }
-
 
       return new List<Facet>();
     }
@@ -130,16 +134,35 @@ namespace ZalandoShopSearch.Services
       return new ArticlesPage();
     }
 
+    private Uri generateUriParams(string node)
+    {
+      var urlBuilder = new StringBuilder();
+      urlBuilder.Append(baseUri).Append("/" + node + "?");
+
+      foreach (var item in uriParams)
+      {
+        urlBuilder.Append(item.Key).Append("=").Append(item.Value).Append("&");
+      }
+
+      if (!Uri.TryCreate(urlBuilder.ToString(), UriKind.Absolute, out Uri resourceUri))
+      {
+        throw new Exception("TryCreate URI failed.");
+      }
+
+      return resourceUri;
+    }
+
     #endregion Methods
 
     #region Enums
 
-    public enum GENDER
-    {
-      MALE,
-      FEMALE
-    }
-
     #endregion Enums
   }
+
+  public enum ApiGender
+  {
+    Male,
+    Female
+  }
+
 }

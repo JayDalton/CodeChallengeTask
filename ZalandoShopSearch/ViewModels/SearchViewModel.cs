@@ -23,13 +23,17 @@ namespace ZalandoShopSearch.ViewModels
 
     #endregion Fields
 
-    public SearchViewModel(/*IApiClient client*/)
+    public SearchViewModel(IApiClientInterface client)
     {
-      apiClient = new ApiClient();
-      SetGenderToFemale();
+      apiClient = client;
     }
 
     #region Properties
+
+    public IApiClientInterface Client
+    {
+      get { return apiClient; }
+    }
 
     private IEnumerable<Facet> _facets;
     public IEnumerable<Facet> Facets
@@ -61,18 +65,20 @@ namespace ZalandoShopSearch.ViewModels
       Facets = await apiClient.GetFacetsAsync();
     }
 
-    public void SetGenderToMale()
+    public async Task SetGenderToMale()
     {
       IsGenderMaleEnabled = false;
       IsGenderFemaleEnabled = true;
-      apiClient.SetGender(ApiClient.GENDER.MALE);
+      apiClient.SetGender(ApiGender.Male);
+      await LoadFacetsForSuggestion();
     }
 
-    public void SetGenderToFemale()
+    public async Task SetGenderToFemale()
     {
       IsGenderMaleEnabled = true;
       IsGenderFemaleEnabled = false;
-      apiClient.SetGender(ApiClient.GENDER.FEMALE);
+      apiClient.SetGender(ApiGender.Female);
+      await LoadFacetsForSuggestion();
     }
 
     #endregion Methods
