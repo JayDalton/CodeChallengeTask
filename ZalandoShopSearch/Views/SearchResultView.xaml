@@ -8,43 +8,78 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
+  <Page.Resources>
+    <DataTemplate x:Name="ArticleListTemplate" x:DataType="vm:ArticleViewModel">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Image Grid.Column="0" Grid.RowSpan="4" Source="{x:Bind Image}" Width="80" Height="110"/>
+        <TextBlock Grid.Column="1" Grid.Row="0" Text="{x:Bind BrandName}" FontWeight="Bold" TextWrapping="Wrap" />
+        <TextBlock Grid.Column="1" Grid.Row="1" Text="{x:Bind Name}" FontWeight="Bold" TextWrapping="Wrap" />
+        <TextBlock Grid.Column="1" Grid.Row="2" Text="{x:Bind Size}" />
+        <TextBlock Grid.Column="1" Grid.Row="3" Text="{x:Bind Price}" />
+      </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Name="ArticleWrapTemplate" x:DataType="vm:ArticleViewModel">
+      <Grid Width="120">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Image Grid.Row="0" Source="{x:Bind Image}" Width="80" Height="80"/>
+        <TextBlock Grid.Row="1" Text="{x:Bind BrandName}" FontWeight="Bold" TextWrapping="Wrap" />
+        <TextBlock Grid.Row="2" Text="{x:Bind Name}" FontWeight="Bold" TextWrapping="Wrap" />
+        <TextBlock Grid.Row="3" Text="{x:Bind Size}" />
+        <TextBlock Grid.Row="4" Text="{x:Bind Price}" />
+      </Grid>
+    </DataTemplate>
+  </Page.Resources>
+  
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <VisualStateManager.VisualStateGroups>
+      <VisualStateGroup>
+        <VisualState>
+          <VisualState.StateTriggers>
+            <AdaptiveTrigger MinWindowWidth="720"/>
+          </VisualState.StateTriggers>
+          <VisualState.Setters>
+            <Setter Target="ArticleItems.ItemTemplate" Value="{StaticResource ArticleWrapTemplate}"/>
+            <Setter Target="ArticleItems.ItemsPanel">
+              <Setter.Value>
+                <ItemsPanelTemplate >
+                  <ItemsWrapGrid Orientation="Horizontal" VerticalAlignment="Top"/>
+                </ItemsPanelTemplate>
+              </Setter.Value>
+            </Setter>
+          </VisualState.Setters>
+        </VisualState>
+      </VisualStateGroup>
+    </VisualStateManager.VisualStateGroups>
+
     <ListView 
-          x:Name="MedicalItems" MinWidth="250" Margin="5"
-          ItemsSource="{x:Bind ViewModel.DataSource, Mode=OneWay}" 
-          HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-      <ListView.ItemsPanel>
-        <ItemsPanelTemplate>
-          <ItemsWrapGrid Orientation="Horizontal"/>
-        </ItemsPanelTemplate>
-      </ListView.ItemsPanel>
-      <ListView.ItemTemplate>
-        <DataTemplate x:DataType="vm:ArticleViewModel">
-          <Grid Width="200" Height="100">
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="Auto"/>
-              <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-              <RowDefinition Height="Auto"/>
-              <RowDefinition Height="Auto"/>
-              <RowDefinition Height="Auto"/>
-              <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Image Grid.Column="0" Grid.RowSpan="4" Source="{x:Bind Image}" Width="70" Height="70"/>
-            <TextBlock Grid.Column="1" Grid.Row="0" Text="{x:Bind BrandName, Mode=OneWay}" FontWeight="Bold" />
-            <TextBlock Grid.Column="1" Grid.Row="1" Text="{x:Bind Name, Mode=OneWay}" FontWeight="Bold" />
-            <TextBlock Grid.Column="1" Grid.Row="2" Text="{x:Bind Size, Mode=OneWay}" />
-            <TextBlock Grid.Column="1" Grid.Row="3" Text="{x:Bind Price, Mode=OneWay}" />
-          </Grid>
-        </DataTemplate>
-      </ListView.ItemTemplate>
-      <ListView.ItemContainerStyle>
+      x:Name="ArticleItems" Margin="5"
+      ItemTemplate="{StaticResource ArticleListTemplate}"
+      ItemsSource="{x:Bind ViewModel.DataSource, Mode=OneWay}" 
+      HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+      <!--<ListView.ItemContainerStyle>
         <Style TargetType="ListViewItem">
           <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
           <Setter Property="Margin" Value="20"/>
         </Style>
-      </ListView.ItemContainerStyle>
+      </ListView.ItemContainerStyle>-->
     </ListView>
 
   </Grid>
