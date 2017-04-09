@@ -59,6 +59,32 @@ namespace ZalandoShopSearch.Services
       }
     }
 
+    public void SetPage(uint page)
+    {
+      var key = "page";
+      if (page != 0)
+      {
+        uriParams[key] = page.ToString();
+      }
+      else
+      {
+        uriParams.Remove(key);
+      }
+    }
+
+    public void SetPageSize(uint size)
+    {
+      var key = "pageSize";
+      if (size != 0)
+      {
+        uriParams[key] = size.ToString();
+      }
+      else
+      {
+        uriParams.Remove(key);
+      }
+    }
+
     public void SetFullText(string text)
     {
       var key = "fullText";
@@ -101,16 +127,10 @@ namespace ZalandoShopSearch.Services
 
     public async Task<ArticlesPage> GetArticlesAsync(uint page = 1, uint size = 30)
     {
-      var urlBuilder = new StringBuilder();
-      urlBuilder.Append(baseUri).Append("/articles?");
-      urlBuilder.Append("page=").Append(page).Append("&");
-      urlBuilder.Append("pageSize=").Append(size).Append("&");
-      //urlBuilder.Append("brand=").Append("T60");
+      SetPage(page);
+      SetPageSize(size);
 
-      if (!Uri.TryCreate(urlBuilder.ToString(), UriKind.Absolute, out Uri resourceUri))
-      {
-        throw new Exception("TryCreate URI failed.");
-      }
+      var resourceUri = generateUriParams("articles");
 
       try
       {

@@ -81,6 +81,11 @@ namespace ZalandoShopSearch.ViewModels
       await LoadFacetsForSuggestion();
     }
 
+    public void SetQueryText(string query)
+    {
+      apiClient.SetFullText(query);
+    }
+
     #endregion Methods
   }
 }

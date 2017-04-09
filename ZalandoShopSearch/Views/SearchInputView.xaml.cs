@@ -80,6 +80,12 @@ namespace ZalandoShopSearch.Views
 
     private void SearchButton_Click(object sender, RoutedEventArgs e)
     {
+      navigateToSearchResult(SearchArticleBox.Text);
+    }
+
+    private void navigateToSearchResult(string query)
+    {
+      ViewModel.SetQueryText(query);
       Frame.Navigate(typeof(SearchResultView), ViewModel.Client);
     }
 
@@ -104,17 +110,20 @@ namespace ZalandoShopSearch.Views
       if (args.ChosenSuggestion != null && args.ChosenSuggestion is FacetValue)
       {
         //User selected an item, take an action
-        SelectFacetValue(args.ChosenSuggestion as FacetValue);
+        var facetValue = args.ChosenSuggestion as FacetValue;
+        navigateToSearchResult(facetValue.DisplayName);
+        //SelectFacetValue(queryText);
       }
-      else if (!string.IsNullOrEmpty(args.QueryText))
+      else
       {
-        var x = sender.Text;
-        //Do a fuzzy search based on the text
-        var suggestions = SearchFacetValue(args.QueryText);
-        if (0 < suggestions.Count)
-        {
-          SelectFacetValue(suggestions.FirstOrDefault());
-        }
+        navigateToSearchResult(args.QueryText);
+
+        ////Do a fuzzy search based on the text
+        //var suggestions = SearchFacetValue(args.QueryText);
+        //if (0 < suggestions.Count)
+        //{
+        //  SelectFacetValue(suggestions.FirstOrDefault());
+        //}
       }
     }
 
