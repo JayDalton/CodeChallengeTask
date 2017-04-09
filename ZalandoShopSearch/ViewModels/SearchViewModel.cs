@@ -23,9 +23,8 @@ namespace ZalandoShopSearch.ViewModels
 
     #endregion Fields
 
-    public SearchViewModel(IApiClientInterface client)
+    public SearchViewModel()
     {
-      apiClient = client;
     }
 
     #region Properties
@@ -60,9 +59,14 @@ namespace ZalandoShopSearch.ViewModels
 
     #region Methods
 
+    public void SetApiClient(IApiClientInterface client)
+    {
+      apiClient = client;
+    }
+
     public async Task LoadFacetsForSuggestion()
     {
-      Facets = await apiClient.GetFacetsAsync();
+      Facets = await apiClient?.GetFacetsAsync();
     }
 
     public async Task SetGenderToMale()

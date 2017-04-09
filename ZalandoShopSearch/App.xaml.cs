@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using ZalandoShopSearch.Services;
 using ZalandoShopSearch.Views;
 
 namespace ZalandoShopSearch
@@ -68,7 +69,7 @@ namespace ZalandoShopSearch
           // Wenn der Navigationsstapel nicht wiederhergestellt wird, zur ersten Seite navigieren
           // und die neue Seite konfigurieren, indem die erforderlichen Informationen als Navigationsparameter
           // übergeben werden
-          rootFrame.Navigate(typeof(SearchInputView), e.Arguments);
+          rootFrame.Navigate(typeof(SearchInputView), new ApiClient());  // e.Arguments
         }
 
         // Register a global back event handler. This can be registered on a per-page-bases if you only have a subset of your pages

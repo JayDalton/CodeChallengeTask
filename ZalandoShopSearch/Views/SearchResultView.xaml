@@ -21,11 +21,11 @@
           <RowDefinition Height="Auto"/>
           <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Image Grid.Column="0" Grid.RowSpan="4" Source="{x:Bind Image}" Width="80" Height="110"/>
+        <Image Grid.Column="0" Grid.RowSpan="4" Source="{x:Bind Image}" x:Phase="4" Width="80" Height="110"/>
         <TextBlock Grid.Column="1" Grid.Row="0" Text="{x:Bind BrandName}" FontWeight="Bold" TextWrapping="Wrap" />
-        <TextBlock Grid.Column="1" Grid.Row="1" Text="{x:Bind Name}" FontWeight="Bold" TextWrapping="Wrap" />
-        <TextBlock Grid.Column="1" Grid.Row="2" Text="{x:Bind Size}" />
-        <TextBlock Grid.Column="1" Grid.Row="3" Text="{x:Bind Price}" />
+        <TextBlock Grid.Column="1" Grid.Row="1" Text="{x:Bind Name}" x:Phase="1" FontWeight="Bold" TextWrapping="Wrap" />
+        <TextBlock Grid.Column="1" Grid.Row="2" Text="{x:Bind Size}" x:Phase="2" />
+        <TextBlock Grid.Column="1" Grid.Row="3" Text="{x:Bind Price}" x:Phase="3" />
       </Grid>
     </DataTemplate>
 
@@ -38,16 +38,16 @@
           <RowDefinition Height="Auto"/>
           <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Image Grid.Row="0" Source="{x:Bind Image}" Width="80" Height="80"/>
+        <Image Grid.Row="0" Source="{x:Bind Image}" x:Phase="4" Width="80" Height="80"/>
         <TextBlock Grid.Row="1" Text="{x:Bind BrandName}" FontWeight="Bold" TextWrapping="Wrap" />
-        <TextBlock Grid.Row="2" Text="{x:Bind Name}" FontWeight="Bold" TextWrapping="Wrap" />
-        <TextBlock Grid.Row="3" Text="{x:Bind Size}" />
-        <TextBlock Grid.Row="4" Text="{x:Bind Price}" />
+        <TextBlock Grid.Row="2" Text="{x:Bind Name}" x:Phase="1" FontWeight="Bold" TextWrapping="Wrap" />
+        <TextBlock Grid.Row="3" Text="{x:Bind Size}" x:Phase="2" />
+        <TextBlock Grid.Row="4" Text="{x:Bind Price}" x:Phase="3" />
       </Grid>
     </DataTemplate>
   </Page.Resources>
-  
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <VisualStateManager.VisualStateGroups>
       <VisualStateGroup>
@@ -74,12 +74,11 @@
       ItemTemplate="{StaticResource ArticleListTemplate}"
       ItemsSource="{x:Bind ViewModel.DataSource, Mode=OneWay}" 
       HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-      <!--<ListView.ItemContainerStyle>
+      <ListView.ItemContainerStyle>
         <Style TargetType="ListViewItem">
           <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-          <Setter Property="Margin" Value="20"/>
         </Style>
-      </ListView.ItemContainerStyle>-->
+      </ListView.ItemContainerStyle>
     </ListView>
 
   </Grid>

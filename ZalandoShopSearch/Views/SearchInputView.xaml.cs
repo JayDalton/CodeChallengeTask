@@ -30,18 +30,17 @@ namespace ZalandoShopSearch.Views
   {
     SearchViewModel ViewModel { get; set; }
 
-    ObservableCollection<string> Suggestions { get; set; }
-
     public SearchInputView()
     {
       this.InitializeComponent();
-      var apiClient = new ApiClient();
-      ViewModel = new SearchViewModel(apiClient);
+      ViewModel = new SearchViewModel();
     }
 
     protected async override void OnNavigatedTo(NavigationEventArgs e)
     {
       base.OnNavigatedTo(e);
+      var client = e.Parameter as IApiClientInterface;
+      ViewModel.SetApiClient(client);
       await ViewModel.SetGenderToFemale();
 
       Frame rootFrame = Window.Current.Content as Frame;
@@ -112,51 +111,19 @@ namespace ZalandoShopSearch.Views
         //User selected an item, take an action
         var facetValue = args.ChosenSuggestion as FacetValue;
         navigateToSearchResult(facetValue.DisplayName);
-        //SelectFacetValue(queryText);
       }
       else
       {
         navigateToSearchResult(args.QueryText);
-
-        ////Do a fuzzy search based on the text
-        //var suggestions = SearchFacetValue(args.QueryText);
-        //if (0 < suggestions.Count)
-        //{
-        //  SelectFacetValue(suggestions.FirstOrDefault());
-        //}
       }
     }
 
     private void SearchArticleBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
     {
-      var facet = args.SelectedItem as FacetValue;
-
-      //Don't autocomplete the TextBox when we are showing "no results"
-      if (facet != null)
+      if (args.SelectedItem is FacetValue)
       {
+        var facet = args.SelectedItem as FacetValue;
         sender.Text = facet.DisplayName;
-      }
-    }
-
-    private void SelectFacetValue(FacetValue facetValue)
-    {
-      if (facetValue != null)
-      {
-        var facets = ViewModel.Facets;
-        Debug.WriteLine(string.Format("FacetValue: {0} {1} {2}", facetValue.DisplayName, facetValue.Count, facetValue.Key));
-
-        var results = facets.Where(f => f.Facets.Contains(facetValue));
-        var xxx = SearchFacetValue(facetValue.DisplayName);
-
-        foreach (var item in xxx)
-        {
-          Debug.WriteLine(item.Key);
-        }
-
-        foreach (var facet in results)
-        {
-          Debug.WriteLine(facet.Filter);
-        }
       }
     }
 
@@ -164,7 +131,6 @@ namespace ZalandoShopSearch.Views
     {
       var facets = ViewModel.Facets;
       var suggestions = new List<FacetValue>();
-
 
       foreach (var facet in ViewModel.Facets)
       {
