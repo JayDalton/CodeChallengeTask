@@ -2,10 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.Web.Http;
 using ZalandoShopSearch.Models;
 using ZalandoShopSearch.Services;
@@ -23,6 +26,7 @@ namespace ZalandoShopSearch.ViewModels
     public SearchViewModel(/*IApiClient client*/)
     {
       apiClient = new ApiClient();
+      SetGenderToFemale();
     }
 
     #region Properties
@@ -34,19 +38,41 @@ namespace ZalandoShopSearch.ViewModels
       private set { SetProperty(ref _facets, value); }
     }
 
-    public bool IsDataLoaded { get; private set; }
+    private bool isMaleEnabled;
+    public bool IsGenderMaleEnabled
+    {
+      get { return isMaleEnabled; }
+      set { SetProperty(ref isMaleEnabled, value); }
+    }
+
+    private bool isFemaleEnabled;
+    public bool IsGenderFemaleEnabled
+    {
+      get { return isFemaleEnabled; }
+      set { SetProperty(ref isFemaleEnabled, value); }
+    }
 
     #endregion Properties
 
     #region Methods
 
-    public async Task loadData()
+    public async Task LoadFacetsForSuggestion()
     {
+      Facets = await apiClient.GetFacetsAsync();
+    }
 
-      Facets = await apiClient.GetFacetsAsync("male");
+    public void SetGenderToMale()
+    {
+      IsGenderMaleEnabled = false;
+      IsGenderFemaleEnabled = true;
+      apiClient.SetGender(ApiClient.GENDER.MALE);
+    }
 
-      var article = await apiClient.GetArticlesAsync(1, 25);
-
+    public void SetGenderToFemale()
+    {
+      IsGenderMaleEnabled = true;
+      IsGenderFemaleEnabled = false;
+      apiClient.SetGender(ApiClient.GENDER.FEMALE);
     }
 
     #endregion Methods

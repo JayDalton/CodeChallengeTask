@@ -39,7 +39,36 @@ namespace ZalandoShopSearch.Views
     protected async override void OnNavigatedTo(NavigationEventArgs e)
     {
       base.OnNavigatedTo(e);
-      await ViewModel.loadData();
+      await ViewModel.LoadFacetsForSuggestion();
+    }
+
+    private async void GenderButton_Click(object sender, RoutedEventArgs e)
+    {
+      if (sender is Button)
+      {
+        Button btn = sender as Button;
+        string gender = btn.Tag.ToString();
+        switch (gender)
+        {
+          case "Male":
+            SearchArticleBox.Text = string.Empty;
+            SearchArticleBox.Focus(FocusState.Programmatic);
+            ViewModel.SetGenderToMale();
+            await ViewModel.LoadFacetsForSuggestion();
+            break;
+          case "Female":
+            SearchArticleBox.Text = string.Empty;
+            SearchArticleBox.Focus(FocusState.Programmatic);
+            ViewModel.SetGenderToFemale();
+            await ViewModel.LoadFacetsForSuggestion();
+            break;
+        }
+      }
+    }
+
+    private void SearchButton_Click(object sender, RoutedEventArgs e)
+    {
+      Frame.Navigate(typeof(SearchResultView));
     }
 
     private void SearchArticleBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
@@ -87,31 +116,6 @@ namespace ZalandoShopSearch.Views
       }
     }
 
-    private void SearchButton_Click(object sender, RoutedEventArgs e)
-    {
-      Frame.Navigate(typeof(SearchResultView));
-    }
-
-    private void SexRadioButton_Checked(object sender, RoutedEventArgs e)
-    {
-      if (sender is RadioButton)
-      {
-        RadioButton rb = sender as RadioButton;
-        string colorName = rb.Tag.ToString();
-        switch (colorName)
-        {
-          case "Male":
-            Debug.WriteLine("Male selected");
-            break;
-          case "Female":
-            Debug.WriteLine("Female selected");
-            break;
-        }
-
-      }
-
-    }
-
     private void SelectFacetValue(FacetValue facetValue)
     {
       if (facetValue != null)
@@ -147,5 +151,6 @@ namespace ZalandoShopSearch.Views
         .ThenBy(i => i.DisplayName)
         .ToList();
     }
+
   }
 }

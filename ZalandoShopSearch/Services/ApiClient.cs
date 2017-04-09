@@ -17,6 +17,8 @@ namespace ZalandoShopSearch.Services
 
     const string baseUri = "http://api.zalando.com";
 
+    private Dictionary<string, string> uriParams;
+
     private HttpClient httpClient;
     private HttpBaseProtocolFilter filter;
     private CancellationTokenSource cts;
@@ -25,6 +27,7 @@ namespace ZalandoShopSearch.Services
 
     public ApiClient()
     {
+      uriParams = new Dictionary<string, string>();
       filter = new HttpBaseProtocolFilter();
       httpClient = new HttpClient(filter);
       cts = new CancellationTokenSource();
@@ -42,11 +45,27 @@ namespace ZalandoShopSearch.Services
 
     #region Methods
 
-    public async Task<IEnumerable<Facet>> GetFacetsAsync(string gender = "male")
+    public void SetGender(GENDER gender)
+    {
+      switch (gender)
+      {
+        case GENDER.MALE:
+          uriParams["gender"] = "male";
+          break;
+        case GENDER.FEMALE:
+          uriParams["gender"] = "female";
+          break;
+      }
+    }
+
+    public async Task<IEnumerable<Facet>> GetFacetsAsync()
     {
       var urlBuilder = new StringBuilder();
       urlBuilder.Append(baseUri).Append("/facets?");
-      urlBuilder.Append("gender=").Append(gender);
+      foreach (var item in uriParams)
+      {
+        urlBuilder.Append(item.Key).Append("=").Append(item.Value).Append("&");
+      }
 
       if (!Uri.TryCreate(urlBuilder.ToString(), UriKind.Absolute, out Uri resourceUri))
       {
@@ -112,5 +131,15 @@ namespace ZalandoShopSearch.Services
     }
 
     #endregion Methods
+
+    #region Enums
+
+    public enum GENDER
+    {
+      MALE,
+      FEMALE
+    }
+
+    #endregion Enums
   }
 }

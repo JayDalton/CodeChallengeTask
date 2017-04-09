@@ -4,12 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ZalandoShopSearch.Models;
+using static ZalandoShopSearch.Services.ApiClient;
 
 namespace ZalandoShopSearch.Services
 {
   public interface IApiClientInterface
   {
-    Task<IEnumerable<Facet>> GetFacetsAsync(string gender);
+    void SetGender(GENDER gender);
+
+    Task<IEnumerable<Facet>> GetFacetsAsync();
 
     Task<ArticlesPage> GetArticlesAsync(uint page = 1, uint size = 50);
   }
