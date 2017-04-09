@@ -28,13 +28,12 @@ namespace ZalandoShopSearch.Views
     public SearchResultView()
     {
       this.InitializeComponent();
-      ViewModel = new ResultViewModel();
+      this.ViewModel = new ResultViewModel();
     }
 
-    protected async override void OnNavigatedTo(NavigationEventArgs e)
+    protected override void OnNavigatedTo(NavigationEventArgs e)
     {
       base.OnNavigatedTo(e);
-      await ViewModel.loadData();
     }
   }
 }

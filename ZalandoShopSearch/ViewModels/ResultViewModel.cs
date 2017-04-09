@@ -20,24 +20,17 @@ namespace ZalandoShopSearch.ViewModels
     public ResultViewModel()
     {
       apiClient = new ApiClient();
+      DataSource = new IncrementalDataSource(apiClient);
     }
 
     #region Properties
 
-    public ObservableCollection<ArticleViewModel> Articles { get; set; } = new ObservableCollection<ArticleViewModel>();
+    public IncrementalDataSource DataSource { get; set; }
 
     #endregion Properties
 
     #region Methods
 
-    public async Task loadData()
-    {
-      var article = await apiClient.GetArticlesAsync();
-      foreach (var item in article.Content)
-      {
-        Articles.Add(new ArticleViewModel(item));
-      }
-    }
 
     #endregion Methods
 

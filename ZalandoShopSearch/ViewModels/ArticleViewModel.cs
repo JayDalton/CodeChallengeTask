@@ -23,6 +23,7 @@ namespace ZalandoShopSearch.ViewModels
     public string Price { get { return This.Units[0].Price.Formatted; } }
 
     public string Size { get { return string.Format("Size: {0}", This.Units[0].Size); } }
+
     private BitmapImage _image;
     public BitmapImage Image
     {

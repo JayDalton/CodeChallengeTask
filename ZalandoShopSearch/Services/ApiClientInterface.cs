@@ -11,6 +11,6 @@ namespace ZalandoShopSearch.Services
   {
     Task<IEnumerable<Facet>> GetFacetsAsync(string gender);
 
-    Task<ArticlesPage> GetArticlesAsync();
+    Task<ArticlesPage> GetArticlesAsync(uint page = 1, uint size = 50);
   }
 }

@@ -11,7 +11,7 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <ListView 
           x:Name="MedicalItems" MinWidth="250" Margin="5"
-          ItemsSource="{x:Bind ViewModel.Articles, Mode=OneWay}" 
+          ItemsSource="{x:Bind ViewModel.DataSource, Mode=OneWay}" 
           HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
       <ListView.ItemsPanel>
         <ItemsPanelTemplate>

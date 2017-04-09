@@ -76,10 +76,12 @@ namespace ZalandoShopSearch.Services
       return new List<Facet>();
     }
 
-    public async Task<ArticlesPage> GetArticlesAsync()
+    public async Task<ArticlesPage> GetArticlesAsync(uint page = 1, uint size = 30)
     {
       var urlBuilder = new StringBuilder();
       urlBuilder.Append(baseUri).Append("/articles?");
+      urlBuilder.Append("page=").Append(page).Append("&");
+      urlBuilder.Append("pageSize=").Append(size).Append("&");
       //urlBuilder.Append("brand=").Append("T60");
 
       if (!Uri.TryCreate(urlBuilder.ToString(), UriKind.Absolute, out Uri resourceUri))

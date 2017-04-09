@@ -45,7 +45,7 @@ namespace ZalandoShopSearch.ViewModels
 
       Facets = await apiClient.GetFacetsAsync("male");
 
-      var article = await apiClient.GetArticlesAsync();
+      var article = await apiClient.GetArticlesAsync(1, 25);
 
     }
 
