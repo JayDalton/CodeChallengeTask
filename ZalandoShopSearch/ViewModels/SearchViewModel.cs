@@ -88,6 +88,7 @@ namespace ZalandoShopSearch.ViewModels
     public void SetQueryText(string query)
     {
       apiClient.SetFullText(query);
+      //throw new Exception("Hello World!");
     }
 
     #endregion Methods

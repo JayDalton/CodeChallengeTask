@@ -10,7 +10,7 @@
 
   <Page.Resources>
     <DataTemplate x:Name="ArticleListTemplate" x:DataType="vm:ArticleViewModel">
-      <Grid>
+      <Grid Background="LightSteelBlue" Height="200">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="Auto"/>
           <ColumnDefinition Width="*"/>
@@ -30,7 +30,7 @@
     </DataTemplate>
 
     <DataTemplate x:Name="ArticleWrapTemplate" x:DataType="vm:ArticleViewModel">
-      <Grid Width="120">
+      <Grid Background="LightSteelBlue" Width="120">
         <Grid.RowDefinitions>
           <RowDefinition Height="Auto"/>
           <RowDefinition Height="Auto"/>
@@ -72,11 +72,16 @@
     <ListView 
       x:Name="ArticleItems" Margin="5"
       ItemTemplate="{StaticResource ArticleListTemplate}"
-      ItemsSource="{x:Bind ViewModel.DataSource, Mode=OneWay}" 
-      HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+      ItemsSource="{x:Bind ViewModel.DataSource, Mode=OneWay}">
       <ListView.ItemContainerStyle>
         <Style TargetType="ListViewItem">
-          <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+          <Setter Property="Template">
+            <Setter.Value>
+              <ControlTemplate TargetType="ListViewItem">
+                <ListViewItemPresenter/>
+              </ControlTemplate>
+            </Setter.Value>
+          </Setter>
         </Style>
       </ListView.ItemContainerStyle>
     </ListView>

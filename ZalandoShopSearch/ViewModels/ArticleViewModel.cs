@@ -18,6 +18,7 @@ namespace ZalandoShopSearch.ViewModels
 
     public string Color { get { return This.Color; } }
 
+
     public string BrandName { get { return This.Brand.Name; } }
 
     public string Price { get { return This.Units[0].Price.Formatted; } }
@@ -31,7 +32,8 @@ namespace ZalandoShopSearch.ViewModels
       {
         if (_image == null)
         {
-          _image = new BitmapImage(new Uri(This.Media.Images[0].ThumbnailHdUrl));
+
+          _image = new BitmapImage(new Uri(This.Media.Images[0].LargeHdUrl));
         }
         return _image;
       }
