@@ -10,5 +10,10 @@ namespace ZalandoShopSearch.Services
   class ItemCacheManager<T>
   {
     List<ItemsPage<T>> cacheBlocks;
+
+        public T this[int index]
+        {
+            get { return default(T); }
+        }
   }
 }
