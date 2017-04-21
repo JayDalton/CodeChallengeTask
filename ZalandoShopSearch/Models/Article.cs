@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace ZalandoShopSearch.Models
 {
-  public partial class ArticlesPage
+  public partial class ItemsPage<T>
   {
     /// <summary>content elements in the response</summary>
     [JsonProperty("content", Required = Required.Always)]
-    public IEnumerable<Article> Content { get; set; }
+    public IEnumerable<T> Content { get; set; }
 
     /// <summary>total elements in the response</summary>
     [JsonProperty("totalElements", Required = Required.Always)]
@@ -34,9 +34,9 @@ namespace ZalandoShopSearch.Models
       return JsonConvert.SerializeObject(this);
     }
 
-    public static ArticlesPage FromJson(string data)
+    public static ItemsPage<Article> FromJson(string data)
     {
-      return JsonConvert.DeserializeObject<ArticlesPage>(data);
+      return JsonConvert.DeserializeObject<ItemsPage<Article>>(data);
     }
   }
 

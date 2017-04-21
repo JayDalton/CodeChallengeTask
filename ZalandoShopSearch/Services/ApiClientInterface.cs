@@ -12,6 +12,6 @@ namespace ZalandoShopSearch.Services
 
     Task<IEnumerable<Facet>> GetFacetsAsync();
 
-    Task<ArticlesPage> GetArticlesAsync(uint page = 1, uint size = 50);
+    Task<ItemsPage<Article>> GetArticlesAsync(uint page = 1, uint size = 50);
   }
 }

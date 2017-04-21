@@ -23,7 +23,9 @@ namespace ZalandoShopSearch.ViewModels
 
     #region Properties
 
-    public IncrementalDataSource DataSource { get; set; }
+    //public IncrementalDataSource DataSource { get; set; }
+
+    public ItemsRangeDataSource DataSource { get; set; }
 
     #endregion Properties
 
@@ -32,7 +34,8 @@ namespace ZalandoShopSearch.ViewModels
     public void SetApiClient(IApiClientInterface client)
     {
       apiClient = client;
-      DataSource = new IncrementalDataSource(apiClient);
+      //DataSource = new IncrementalDataSource(apiClient);
+      DataSource = new ItemsRangeDataSource(apiClient);
     }
 
     #endregion Methods

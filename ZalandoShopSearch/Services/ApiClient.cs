@@ -125,7 +125,7 @@ namespace ZalandoShopSearch.Services
       return new List<Facet>();
     }
 
-    public async Task<ArticlesPage> GetArticlesAsync(uint page = 1, uint size = 30)
+    public async Task<ItemsPage<Article>> GetArticlesAsync(uint page = 1, uint size = 30)
     {
       SetPage(page);
       SetPageSize(size);
@@ -139,7 +139,7 @@ namespace ZalandoShopSearch.Services
         if (httpResponse.IsSuccessStatusCode)
         {
           var content = await httpResponse.Content.ReadAsStringAsync();
-          return JsonConvert.DeserializeObject<ArticlesPage>(content);
+          return JsonConvert.DeserializeObject<ItemsPage<Article>>(content);
         }
       }
       catch (TaskCanceledException)
@@ -151,7 +151,7 @@ namespace ZalandoShopSearch.Services
         throw;
       }
 
-      return new ArticlesPage();
+      return new ItemsPage<Article>();
     }
 
     private Uri generateUriParams(string node)

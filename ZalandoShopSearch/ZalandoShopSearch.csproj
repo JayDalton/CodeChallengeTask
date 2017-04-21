@@ -106,6 +106,8 @@
     <Compile Include="Services\ApiClient.cs" />
     <Compile Include="Services\ApiClientInterface.cs" />
     <Compile Include="Services\IncrementalDataSource.cs" />
+    <Compile Include="Services\ItemCacheManager.cs" />
+    <Compile Include="Services\ItemsRangeDataSource.cs" />
     <Compile Include="ViewModels\ArticleViewModel.cs" />
     <Compile Include="ViewModels\NotificationBase.cs" />
     <Compile Include="ViewModels\ResultViewModel.cs" />
