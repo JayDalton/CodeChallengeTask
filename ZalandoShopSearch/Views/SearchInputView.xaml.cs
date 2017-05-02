@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Core;
@@ -77,15 +78,15 @@ namespace ZalandoShopSearch.Views
       }
     }
 
-    private void SearchButton_Click(object sender, RoutedEventArgs e)
+    private async void SearchButton_Click(object sender, RoutedEventArgs e)
     {
-      navigateToSearchResult(SearchArticleBox.Text);
+      await navigateToSearchResult(SearchArticleBox.Text);
     }
 
-    private void navigateToSearchResult(string query)
+    private async Task navigateToSearchResult(string query)
     {
-      ViewModel.SetQueryText(query);
-      Frame.Navigate(typeof(SearchResultView), ViewModel.Client);
+      await ViewModel.SetQueryText(query);
+      //Frame.Navigate(typeof(SearchResultView), ViewModel.Client);
     }
 
     private void SearchArticleBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
@@ -147,5 +148,9 @@ namespace ZalandoShopSearch.Views
         .ToList();
     }
 
+    private void AdaptiveStates_CurrentStateChanged(object sender, VisualStateChangedEventArgs e)
+    {
+
+    }
   }
 }

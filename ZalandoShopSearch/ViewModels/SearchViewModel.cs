@@ -55,6 +55,15 @@ namespace ZalandoShopSearch.ViewModels
       set { SetProperty(ref isFemaleEnabled, value); }
     }
 
+    IncrementalDataSource _dataSource;
+    public IncrementalDataSource DataSource
+    {
+      get { return _dataSource; }
+      set { SetProperty(ref _dataSource, value); }
+    }
+
+    //public ItemsRangeDataSource DataSource { get; set; }
+
     #endregion Properties
 
     #region Methods
@@ -85,10 +94,13 @@ namespace ZalandoShopSearch.ViewModels
       await LoadFacetsForSuggestion();
     }
 
-    public void SetQueryText(string query)
+    public async Task SetQueryText(string query)
     {
       apiClient.SetFullText(query);
-      //throw new Exception("Hello World!");
+
+      DataSource = new IncrementalDataSource(apiClient);
+      //var ds = await ItemsRangeDataSource.GetDataSource(apiClient);
+      //DataSource = ds;
     }
 
     #endregion Methods
