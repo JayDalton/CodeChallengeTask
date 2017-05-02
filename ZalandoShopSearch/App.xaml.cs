@@ -69,7 +69,7 @@ namespace ZalandoShopSearch
           // Wenn der Navigationsstapel nicht wiederhergestellt wird, zur ersten Seite navigieren
           // und die neue Seite konfigurieren, indem die erforderlichen Informationen als Navigationsparameter
           // übergeben werden
-          rootFrame.Navigate(typeof(SearchResultView), new ApiClient());  // e.Arguments
+          rootFrame.Navigate(typeof(MainPage), new ApiClient());  // e.Arguments
         }
 
         // Register a global back event handler. This can be registered on a per-page-bases if you only have a subset of your pages

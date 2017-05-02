@@ -5,9 +5,48 @@
     xmlns:local="using:ZalandoShopSearch"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    RequestedTheme="Light"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    >
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <Style x:Key="ButtonRadioButtonStyle" TargetType="RadioButton">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Button Content="{TemplateBinding Content}"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
 
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <AutoSuggestBox Grid.Row="0"
+        x:Name="SearchArticleBox" Margin="10"
+        QueryIcon="Find" PlaceholderText="Artikel suchen..."
+        TextChanged="SearchArticleBox_TextChanged"
+        QuerySubmitted="SearchArticleBox_QuerySubmitted"
+        SuggestionChosen="SearchArticleBox_SuggestionChosen"
+        HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="MEN" Tag="Male" IsEnabled="{x:Bind ViewModel.IsGenderMaleEnabled, Mode=OneWay}" Click="{x:Bind GenderButton_Click}" Margin="20"/>
+            <Button Content="WOMEN" Tag="Female" IsEnabled="{x:Bind ViewModel.IsGenderFemaleEnabled, Mode=TwoWay}" Click="{x:Bind GenderButton_Click}" Margin="20"/>
+        </StackPanel>
+
+        <Button Grid.Row="2" Margin="20" Click="SearchButton_Click" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+            <Border Width="200" Height="50" CornerRadius="10" BorderThickness="3" BorderBrush="Black">
+                <TextBlock Text="Serach" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+        </Button>
     </Grid>
+
 </Page>

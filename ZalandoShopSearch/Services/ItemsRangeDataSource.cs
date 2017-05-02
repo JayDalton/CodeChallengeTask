@@ -63,30 +63,30 @@ namespace ZalandoShopSearch.Services
 
     // Callback from itemcache that it needs items to be retrieved
     // Using this callback model abstracts the details of this specific datasource from the cache implementation
-    private async Task<Article[]> fetchDataCallback(ItemIndexRange batch, CancellationToken ct)
-    {
+    //private async Task<Article[]> fetchDataCallback(ItemIndexRange batch, CancellationToken ct)
+    //{
 
-      // Fetch file objects from filesystem
-      IReadOnlyList<StorageFile> results = await _queryResult.GetFilesAsync((uint)batch.FirstIndex, Math.Max(batch.Length, 20)).AsTask(ct);
-      //var content = await apiClient.GetArticlesAsync();
-      List<Article> files = new List<Article>();
-      if (results != null)
-      {
-        for (int i = 0; i < results.Count; i++)
-        {
-          // Check if request has been cancelled, if so abort getting additional data
-          ct.ThrowIfCancellationRequested();
-          // Create our FileItem object with the file data and thumbnail 
-          FileItem newItem = await FileItem.fromStorageFile(results[i], ct);
-          files.Add(newItem);
-        }
-      }
-      return files.ToArray();
-    }
+    //  // Fetch file objects from filesystem
+    //  IReadOnlyList<StorageFile> results = await _queryResult.GetFilesAsync((uint)batch.FirstIndex, Math.Max(batch.Length, 20)).AsTask(ct);
+    //  //var content = await apiClient.GetArticlesAsync();
+    //  List<Article> files = new List<Article>();
+    //  if (results != null)
+    //  {
+    //    for (int i = 0; i < results.Count; i++)
+    //    {
+    //      // Check if request has been cancelled, if so abort getting additional data
+    //      ct.ThrowIfCancellationRequested();
+    //      // Create our FileItem object with the file data and thumbnail 
+    //      FileItem newItem = await FileItem.fromStorageFile(results[i], ct);
+    //      files.Add(newItem);
+    //    }
+    //  }
+    //  return files.ToArray();
+    //}
 
     public object this[int index]
     {
-      get { return itemCache[index]; }
+      get { return itemCache[(uint)index]; }
       set => throw new NotImplementedException();
     }
 

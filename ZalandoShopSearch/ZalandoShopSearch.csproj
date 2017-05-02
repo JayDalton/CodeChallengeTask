@@ -109,6 +109,7 @@
     <Compile Include="Services\ItemCacheManager.cs" />
     <Compile Include="Services\ItemsRangeDataSource.cs" />
     <Compile Include="ViewModels\ArticleViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\NotificationBase.cs" />
     <Compile Include="ViewModels\ResultViewModel.cs" />
     <Compile Include="ViewModels\SearchViewModel.cs" />
