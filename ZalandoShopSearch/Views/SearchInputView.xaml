@@ -62,10 +62,37 @@
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="AdaptiveStates" CurrentStateChanged="AdaptiveStates_CurrentStateChanged">
+
+                <VisualState x:Name="ExtendState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="960"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="ArticleItems.ItemTemplate" Value="{StaticResource ArticleWrapTemplate}"/>
+                        <Setter Target="ArticleItems.ItemsPanel">
+                            <Setter.Value>
+                                <ItemsPanelTemplate >
+                                    <ItemsWrapGrid Orientation="Horizontal" VerticalAlignment="Top"/>
+                                </ItemsPanelTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </VisualState.Setters>
+                </VisualState>
+                
                 <VisualState x:Name="DefaultState">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="720" />
                     </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="ArticleItems.ItemTemplate" Value="{StaticResource ArticleListTemplate}"/>
+                        <Setter Target="ArticleItems.ItemsPanel">
+                            <Setter.Value>
+                                <ItemsPanelTemplate>
+                                    <ItemsStackPanel VerticalAlignment="Top"/>
+                                </ItemsPanelTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </VisualState.Setters>
                 </VisualState>
 
                 <VisualState x:Name="NarrowState">
