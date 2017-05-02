@@ -33,11 +33,9 @@ namespace ZalandoShopSearch.Views
       this.ViewModel = new ResultViewModel();
     }
 
-    protected override void OnNavigatedTo(NavigationEventArgs e)
+    protected override async void OnNavigatedTo(NavigationEventArgs e)
     {
       base.OnNavigatedTo(e);
-      var client = e.Parameter as IApiClientInterface;
-      ViewModel.SetApiClient(client);
 
       Frame rootFrame = Window.Current.Content as Frame;
 
@@ -51,6 +49,9 @@ namespace ZalandoShopSearch.Views
         // Remove the UI from the title bar if there are no pages in our in-app back stack
         SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
       }
+
+      var client = e.Parameter as IApiClientInterface;
+      await ViewModel.SetApiClient(client);
     }
   }
 }

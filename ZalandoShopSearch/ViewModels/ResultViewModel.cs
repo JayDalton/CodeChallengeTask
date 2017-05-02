@@ -31,11 +31,12 @@ namespace ZalandoShopSearch.ViewModels
 
     #region Methods
 
-    public void SetApiClient(IApiClientInterface client)
+    public async Task SetApiClient(IApiClientInterface client)
     {
       apiClient = client;
       //DataSource = new IncrementalDataSource(apiClient);
-      DataSource = new ItemsRangeDataSource(apiClient);
+      var ds = await ItemsRangeDataSource.GetDataSource(client);
+      DataSource = ds;
     }
 
     #endregion Methods

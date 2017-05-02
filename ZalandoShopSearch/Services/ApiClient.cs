@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.Foundation;
 using Windows.Web.Http;
 using Windows.Web.Http.Filters;
 using ZalandoShopSearch.Models;
@@ -15,7 +16,7 @@ namespace ZalandoShopSearch.Services
   {
     #region Fields
 
-    const string baseUri = "http://api.zalando.com";
+    const string baseUri = "https://api.zalando.com";
 
     private Dictionary<string, string> uriParams;
 
