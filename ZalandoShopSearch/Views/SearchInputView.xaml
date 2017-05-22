@@ -23,14 +23,14 @@
         <DataTemplate x:Name="ArticleListTemplate" x:DataType="vm:ArticleViewModel">
             <Grid Background="LightSteelBlue" Height="200">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition x:Name="ImageColumn" Width="200"/>
+                    <ColumnDefinition x:Name="ValueColumn" Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Image Grid.Column="0" Grid.RowSpan="4" Source="{x:Bind Image}" x:Phase="4" Width="80" Height="110"/>
                 <TextBlock Grid.Column="1" Grid.Row="0" Text="{x:Bind BrandName}" FontWeight="Bold" TextWrapping="Wrap" />
